@@ -1,73 +1,15 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- ______     ______     ______   __  __     __     ______
- /\  == \   /\  __ \   /\__  _\ /\ \/ /    /\ \   /\__  _\
- \ \  __<   \ \ \/\ \  \/_/\ \/ \ \  _"-.  \ \ \  \/_/\ \/
- \ \_____\  \ \_____\    \ \_\  \ \_\ \_\  \ \_\    \ \_\
- \/_____/   \/_____/     \/_/   \/_/\/_/   \/_/     \/_/
-
-
- This is a sample Microsoft Bot Framework bot built with Botkit.
-
- This bot demonstrates many of the core features of Botkit:
-
- * Connect to the Microsoft Bot Framework Service
- * Receive messages based on "spoken" patterns
- * Reply to messages
- * Use the conversation system to ask questions
- * Use the built in storage system to store and retrieve information
- for a user.
-
- # RUN THE BOT:
-
- Follow the instructions in the "Getting Started" section of the readme-botframework.md file to register your bot.
-
- Run your bot from the command line:
-
- app_id=<MY APP ID> app_password=<MY APP PASSWORD> node botframework_bot.js [--lt [--ltsubdomain LOCALTUNNEL_SUBDOMAIN]]
-
- Use the --lt option to make your bot available on the web through localtunnel.me.
-
- # USE THE BOT:
-
- Find your bot inside Skype to send it a direct message.
-
- Say: "Hello"
-
- The bot will reply "Hello!"
-
- Say: "who are you?"
-
- The bot will tell you its name, where it running, and for how long.
-
- Say: "Call me <nickname>"
-
- Tell the bot your nickname. Now you are friends.
-
- Say: "who am I?"
-
- The bot will tell you your nickname, if it knows one for you.
-
- Say: "shutdown"
-
- The bot will ask if you are sure, and then shut itself down.
-
- Make sure to invite your bot into other channels using /invite @<my bot>!
-
- # EXTEND THE BOT:
-
- Botkit has many features for building cool and useful bots!
-
- Read all about it here:
-
- -> http://howdy.ai/botkit
-
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 require('dotenv').config();
-var Botkit = require('botkit');
-var os = require('os');
-var commandLineArgs = require('command-line-args');
-var localtunnel = require('localtunnel');
+const apiai = require('botkit-middleware-apiai')({
+  token: process.env.api_ai_token,
+  skip_bot: false, // or false. If true, the middleware don't send the bot reply/says to api.ai
+  sessionId: 'ttttttiiiiiiiiiiigggggggghhhhhhttttttt'
+});
+const Botkit = require('botkit');
+const os = require('os');
+const commandLineArgs = require('command-line-args');
+const localtunnel = require('localtunnel');
+
+//const apiai = apiaibotkit(process.env.api_ai_token);
 
 const ops = commandLineArgs([
     {name: 'lt', alias: 'l', args: 1, description: 'Use localtunnel.me to make your bot available on the web.',
@@ -82,11 +24,11 @@ if(ops.lt === false && ops.ltsubdomain !== null) {
     process.exit();
 }
 
-var controller = Botkit.botframeworkbot({
+const controller = Botkit.botframeworkbot({
     debug: true
 });
 
-var bot = controller.spawn({
+const bot = controller.spawn({
     appId: process.env.app_id,
     appPassword: process.env.app_password
 });
@@ -95,7 +37,7 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     controller.createWebhookEndpoints(webserver, bot, function() {
         console.log('ONLINE!');
         if(ops.lt) {
-            var tunnel = localtunnel(process.env.port || 3000, {subdomain: ops.ltsubdomain}, function(err, tunnel) {
+            const tunnel = localtunnel(process.env.port || 3000, {subdomain: ops.ltsubdomain}, function(err, tunnel) {
                 if (err) {
                     console.log(err);
                     process.exit();
@@ -111,6 +53,44 @@ controller.setupWebserver(process.env.port || 3000, function(err, webserver) {
     });
 });
 
+// api-ai stuffs
+controller.middleware.receive.use(apiai.receive);
+
+/*
+controller.hears('.*', ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
+    apiai.process(message, bot);
+});
+apiai.action('smalltalk.greetings', function (message, resp, bot) {
+        console.log('smalltalk', arguments);
+        var responseText = resp.result.fulfillment.speech;
+        bot.reply(message, responseText);
+    })
+    .action('input.unknown', function (message, resp, bot) {
+        console.log('unknown', arguments);
+        bot.reply(message, "Sorry, I don't understand");
+    });
+
+apiai.action('order.create', function (message, resp, bot) {
+    console.log('creating that order', arguments);
+    var responseText = resp.result.fulfillment.speech;
+    bot.reply(message, responseText);
+});
+apiai.all(function (message, resp, bot) {
+    console.log(resp.result.action);
+});
+ */
+
+// apiai.hears for intents. in this example is 'hello' the intent
+controller.hears(['hello'],'direct_message',apiai.hears,function(bot, message) {
+    console.log('apai hearzzzz', bot, message);
+    bot.reply(message, 'hearzzzz');
+});
+
+// apiai.action for actions. in this example is 'user.setName' the action
+controller.hears(['order.create'],'direct_message',apiai.action,function(bot, message) {
+    console.log('apai actionzzz', bot, message);
+    bot.reply(message, 'actionzzzz');
+});
 
 
 controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
@@ -125,12 +105,12 @@ controller.hears(['hello', 'hi'], 'message_received', function(bot, message) {
 });
 
 controller.hears(['call me (.*)'], 'message_received', function(bot, message) {
-    var matches = message.text.match(/call me (.*)/i);
-    var name = matches[1];
+    const matches = message.text.match(/call me (.*)/i);
+    const name = matches[1];
     controller.storage.users.get(message.user, function(err, user) {
         if (!user) {
             user = {
-                id: message.user,
+                id: message.user
             };
         }
         user.name = name;
@@ -181,15 +161,15 @@ controller.hears(['shutdown'],'message_received',function(bot, message) {
 
 controller.hears(['uptime','identify yourself','who are you','what is your name'],'message_received',function(bot, message) {
 
-    var hostname = os.hostname();
-    var uptime = formatUptime(process.uptime());
+    const hostname = os.hostname();
+    const uptime = formatUptime(process.uptime());
 
     bot.reply(message,'I am a bot! I have been running for ' + uptime + ' on ' + hostname + '.');
 
 });
 
 function formatUptime(uptime) {
-    var unit = 'second';
+    let unit = 'second';
     if (uptime > 60) {
         uptime = uptime / 60;
         unit = 'minute';

@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/nicholas-b-carter/botswana#readme",
   "dependencies": {
+    "api-ai-botkit": "^1.1.1",
     "botbuilder": "^3.5.4",
     "botkit": "^0.4.9",
+    "botkit-middleware-apiai": "^0.1.1",
     "command-line-args": "^3.0.5",
     "localtunnel": "^1.8.2",
     "opn": "^4.0.2",
