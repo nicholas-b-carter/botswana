@@ -1,0 +1,23 @@
+{
+  "name": "botswana",
+  "version": "1.0.0",
+  "description": "botswana",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicholas-b-carter/botswana.git"
+  },
+  "author": "Nick Carter <nicholas.b.carter@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicholas-b-carter/botswana/issues"
+  },
+  "homepage": "https://github.com/nicholas-b-carter/botswana#readme",
+  "dependencies": {
+    "botbuilder": "^3.5.4",
+    "restify": "^4.3.0"
+  }
+}
