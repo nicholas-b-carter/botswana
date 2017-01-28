@@ -4,7 +4,8 @@
   "description": "botswana",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "node ./botkit.js --lt --ltsubdomain batswana"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,14 @@
   "homepage": "https://github.com/nicholas-b-carter/botswana#readme",
   "dependencies": {
     "botbuilder": "^3.5.4",
+    "botkit": "^0.4.9",
+    "command-line-args": "^3.0.5",
+    "localtunnel": "^1.8.2",
+    "opn": "^4.0.2",
+    "os": "^0.1.1",
     "restify": "^4.3.0"
+  },
+  "devDependencies": {
+    "dotenv": "^4.0.0"
   }
 }
