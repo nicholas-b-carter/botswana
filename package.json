@@ -26,7 +26,7 @@
     "localtunnel": "^1.8.2",
     "opn": "^4.0.2",
     "os": "^0.1.1",
-    "restify": "^4.3.0"
+    "restify": "^5.0.1"
   },
   "devDependencies": {
     "dotenv": "^4.0.0"
