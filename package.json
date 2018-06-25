@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "local": "node ./botkit.js --lt --ltsubdomain batswana"
+    "local": "node ./botkit.js --lt --ltsubdomain batswana",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -20,15 +22,17 @@
   "dependencies": {
     "api-ai-botkit": "^1.1.1",
     "botbuilder": "^3.5.4",
-    "botkit": "^0.4.9",
+    "botkit": "^0.6.11",
     "botkit-middleware-apiai": "^0.1.1",
     "command-line-args": "^3.0.5",
     "localtunnel": "^1.8.2",
     "opn": "^4.0.2",
     "os": "^0.1.1",
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "snyk": "^1.83.0"
   },
   "devDependencies": {
     "dotenv": "^4.0.0"
-  }
+  },
+  "snyk": true
 }
