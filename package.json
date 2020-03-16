@@ -20,10 +20,10 @@
   "dependencies": {
     "api-ai-botkit": "^1.1.1",
     "botbuilder": "^3.5.4",
-    "botkit": "^0.4.9",
+    "botkit": "^0.7.5",
     "botkit-middleware-apiai": "^0.1.1",
     "command-line-args": "^3.0.5",
-    "localtunnel": "^1.8.2",
+    "localtunnel": "^2.0.0",
     "opn": "^4.0.2",
     "os": "^0.1.1",
     "restify": "^4.3.0"
