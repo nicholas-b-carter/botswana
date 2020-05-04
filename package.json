@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "local": "node ./botkit.js --lt --ltsubdomain batswana"
+    "local": "node ./botkit.js --lt --ltsubdomain batswana",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -26,9 +28,11 @@
     "localtunnel": "^1.8.2",
     "opn": "^4.0.2",
     "os": "^0.1.1",
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "snyk": "^1.317.0"
   },
   "devDependencies": {
     "dotenv": "^4.0.0"
-  }
+  },
+  "snyk": true
 }
