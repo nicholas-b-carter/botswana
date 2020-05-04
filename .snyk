@@ -1,0 +1,14 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - botkit > async > lodash:
+        patched: '2020-05-04T22:06:55.960Z'
+    - api-ai-botkit > botkit > async > lodash:
+        patched: '2020-05-04T22:06:55.960Z'
+    - botkit > twilio > request > form-data > async > lodash:
+        patched: '2020-05-04T22:06:55.960Z'
+    - api-ai-botkit > botkit > twilio > request > form-data > async > lodash:
+        patched: '2020-05-04T22:06:55.960Z'
